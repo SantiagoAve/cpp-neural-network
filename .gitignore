@@ -1,0 +1,7 @@
+# Para ignorar la carpeta de compilación.
+/build/
+
+# Y para ignorar ejecutables.
+*.exe
+*.out
+*.o

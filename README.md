@@ -20,10 +20,10 @@ Este proyecto personal está diseñado para aprender y poner en práctica concep
 - CMake versión 3.10 o superior.
 - Eigen (librería de Álgebra Lineal)
 
-# Instalación
-- Luego de clonar el repo, ejecutar:
-    git submodule init
-    git submodule update
+# Instrucciones de uso
+- Luego de clonar el repo, ejecutar: *git submodule init* y *git submodule update*.
+- Una vez realizado, crear la carpeta *build*.
+- Dentro de build ejecutar los comandos *cmake ..* luego *make* y finalmente *./main*.
 
 # Ejemplo de uso
 *Work in progress!*
