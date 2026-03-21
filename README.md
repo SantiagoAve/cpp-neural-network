@@ -7,11 +7,6 @@ Este proyecto personal está diseñado para aprender y poner en práctica concep
 - Entrenar un modelo simple, como clasificación de dígitos con MNIST.
 - Igualar, o superar en la medidad de lo posible, el rendiemiento de otras librerías ya existentes.
 
-# Requisitos de Compilación
-- G++ o Clang, para C++ 17 o superior.
-- CMake versión 3.10 o superior.
-- Eigen (librería de Álgebra Lineal)
-
 # Roadmap
 1. Preparar entorno y herramientas.
 2. Crear los fundamentos matemáticos de la red neuronal.
@@ -19,6 +14,16 @@ Este proyecto personal está diseñado para aprender y poner en práctica concep
 4. Entrenarla.
 5. Trabajar con MNIST y hacer pruebas.
 6. Comparación de rendimiento.
+
+# Requisitos de Compilación
+- G++ o Clang, para C++ 17 o superior.
+- CMake versión 3.10 o superior.
+- Eigen (librería de Álgebra Lineal)
+
+# Instalación
+- Luego de clonar el repo, ejecutar:
+    git submodule init
+    git submodule update
 
 # Ejemplo de uso
 *Work in progress!*
