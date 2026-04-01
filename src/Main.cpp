@@ -1,22 +1,20 @@
 #include <iostream>
 #include <eigen/Dense>
+#include <Layer.h>
 
 int main() {
+    // First, lets try creating a layer with 3 inputs and 2 outputs.
+    Layer test_layer(3, 2);
+    // We'll also need an input test.
+    Eigen::MatrixXd test_input(3, 1);
+    test_input << 0.2,
+                  0.4,
+                  0.9;
 
-    // Con esto se crea la matriz A.
-    Eigen::Matrix2d matA;
-    matA << 1, 2,
-            3, 4;
+    // Now we try to do forward pass.
+    Eigen::MatrixXd test_result = test_layer.forward(test_input);
 
-    // Con esto se crea la matriz B.
-    Eigen::Matrix2d matB;
-    matB << 2, 0,
-            1, 2;
-
-    // Así se multiplica.
-    Eigen::Matrix2d result = matA * matB;
-
-    std::cout << "El resultado de la multiplicación es:\n" << result << std::endl;
+    std::cout << "Test complete. Result of forward:\n" << test_result << std::endl;
 
     return 0;
 }
