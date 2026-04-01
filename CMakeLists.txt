@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
 project(CPPNeuralNetwork)
 
-# Esto es para que use C++ versión 17 o más.
+# Check and force C++ 17 or higher.
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Esto es pra incluir a Eigen desde el submódulo.
+# This is useful for autoincluding directories.
 include_directories(${CMAKE_SOURCE_DIR}/external/eigen)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
-# Y esto va a crear el ejecutable principal.
-add_executable(main src/main.cpp)
+# Creates main exe.
+add_executable(main
+    src/Main.cpp
+    src/Layer.cpp
+)
