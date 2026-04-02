@@ -4,6 +4,8 @@
 
 class Layer {
     public:
+        // Constructor or class. Initializes a Layer with info about input
+        // and output size, plus its activation method.
         Layer(int input_size, int output_size, const std::string & activation = "Sigmoid");
 
         // Forward function that returns a Matrix of dimensions Output*Bach.

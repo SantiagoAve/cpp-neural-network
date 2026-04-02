@@ -13,4 +13,5 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 add_executable(main
     src/Main.cpp
     src/Layer.cpp
+    src/Network.cpp
 )

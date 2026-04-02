@@ -1,26 +1,35 @@
 #include <iostream>
 #include <eigen/Dense>
-#include <Layer.h>
+#include "Layer.h"
+#include "Network.h"
 
 int main() {
-    // First, lets try creating a layer with 3 inputs and 2 outputs, with sigmoid.
-    Layer test_layer_sigmoid(3, 2, "Sigmoid");
-    // Then, create another layer with 3 inputs and 2 outputs, but with relu.
-    Layer test_layer_relu(3, 2, "ReLU");
-    // We'll also need an input test for both.
-    Eigen::MatrixXd test_input(3, 1);
-    test_input << 0.2,
-                  0.4,
-                  0.9;
+    // Let's create the first layer, which uses ReLU. Then, we
+    // move to the second one using Sigmoid.
+    Layer layer_1(10, 5, "ReLU");
+    Layer layer_2(5, 2, "Sigmoid");
 
-    // Now we try to do forward pass in sigmoid.
-    Eigen::MatrixXd test_result_sigmoid = test_layer_sigmoid.forward(test_input);
-    // Then we try to do forward pass in relu.
-    Eigen::MatrixXd test_result_relu = test_layer_relu.forward(test_input);
+    // Now we can create the Network.
+    Network network({layer_1, layer_2});
 
-    // Print each case and see it youself!
-    std::cout << "Test complete. Result of forward in Sigmoid:\n" << test_result_sigmoid << std::endl;
-    std::cout << "Test complete. Result of forward in ReLU:\n" << test_result_relu << std::endl;
+    // Let's create the fake input.
+    Eigen::MatrixXd test_input(10, 1);
+    test_input << 0.25,
+                  0.40,
+                  0.91,
+                  0.89,
+                  0.50,
+                  0.21,
+                  0.37,
+                  0.11,
+                  0.05,
+                  1.00;
+
+    // Now we make the full Network forward.
+    Eigen::MatrixXd test_output = network.net_forward(test_input);
+
+    // Print the final result.
+    std::cout << "Test complete. Result of network forward:\n" << test_output << std::endl;
 
     return 0;
 }
