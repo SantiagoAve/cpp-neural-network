@@ -11,7 +11,8 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Creates main exe.
 add_executable(main
-    src/Main.cpp
+    src/Loss.cpp
     src/Layer.cpp
     src/Network.cpp
+    src/Main.cpp
 )

@@ -2,6 +2,8 @@
 #include <eigen/Dense>
 #include "Layer.h"
 #include "Network.h"
+// TEST ONLY:
+#include "Loss.h"
 
 int main() {
     // Let's create the first layer, which uses ReLU. Then, we
@@ -26,10 +28,21 @@ int main() {
                   1.00;
 
     // Now we make the full Network forward.
-    Eigen::MatrixXd test_output = network.net_forward(test_input);
+    Eigen::MatrixXd test_predict = network.net_forward(test_input);
 
     // Print the final result.
-    std::cout << "Test complete. Result of network forward:\n" << test_output << std::endl;
+    std::cout << "Test complete. Result of network forward:\n" << test_predict << std::endl;
+
+     // And now we make a test for Loss function.
+    Eigen::MatrixXd test_trueval(2, 1);
+    test_trueval << 1.0,
+                    0.0;
+
+    double test_loss = Loss::mean_squared(test_trueval, test_predict);
+    std::cout << "Loss registered: " << test_loss << std::endl;
+
+    Eigen::MatrixXd test_gradloss = Loss::mean_derivative(test_trueval, test_predict);
+    std::cout << "Loss gradient:\n" << test_gradloss << std::endl;
 
     return 0;
 }
