@@ -5,44 +5,48 @@
 // TEST ONLY:
 #include "Loss.h"
 
+/*
+    RIGHT NOW, WE'LL DO A SIMPLE TEST TO CHECK IF THIS NEURAL NETWORK IS WORKING
+    AS INTENDED. THE IDEA IS TO TRAIN THIS NN TO SIMULATE A XOR.
+*/
 int main() {
-    // Let's create the first layer, which uses ReLU. Then, we
-    // move to the second one using Sigmoid.
-    Layer layer_1(10, 5, "ReLU");
-    Layer layer_2(5, 2, "Sigmoid");
-
-    // Now we can create the Network.
+    // For this, our structure is: { 2 -> 4 -> 1 }
+    Layer layer_1(2, 4, "ReLU");
+    Layer layer_2(4, 1, "Sigmoid");
     Network network({layer_1, layer_2});
 
-    // Let's create the fake input.
-    Eigen::MatrixXd test_input(10, 1);
-    test_input << 0.25,
-                  0.40,
-                  0.91,
-                  0.89,
-                  0.50,
-                  0.21,
-                  0.37,
-                  0.11,
-                  0.05,
-                  1.00;
+    // Let's create four simple examples in a 2*4 matrix:
+    Eigen::MatrixXd test_input(2, 4);
+    test_input << 0, 0, 1, 1,
+                  0, 1, 0, 1;
 
-    // Now we make the full Network forward.
-    Eigen::MatrixXd test_predict = network.net_forward(test_input);
+    // Then, our real values are:
+    Eigen::MatrixXd test_true_val(1, 4);
+    test_true_val << 0, 1, 1, 0;
 
-    // Print the final result.
-    std::cout << "Test complete. Result of network forward:\n" << test_predict << std::endl;
+    // Now we setup out training configuration:
+    double test_lear_rate = 0.1;
+    short epochs = 10000; // An epoch is a single complete pass through the training dataset.
 
-     // And now we make a test for Loss function.
-    Eigen::MatrixXd test_trueval(2, 1);
-    test_trueval << 1.0,
-                    0.0;
+    for (short i = 0; i < epochs; i++) {
+        // First, do forward:
+        Eigen::MatrixXd test_pred_values = network.net_forward(test_input);
 
-    double test_loss = Loss::mean_squared(test_trueval, test_predict);
-    std::cout << "Loss registered: " << test_loss << std::endl;
+        // Afterwards, proceed with backward:
+        network.net_backward(test_true_val, test_pred_values, test_lear_rate);
 
-    Eigen::MatrixXd test_gradloss = Loss::mean_derivative(test_trueval, test_predict);
-    std::cout << "Loss gradient:\n" << test_gradloss << std::endl;
+        // Lastly, we print some info after many epochs:
+        if (i % 1000 == 0) {
+            // Calculate and print current loss:
+            double loss = Loss::mean_squared(test_true_val, test_pred_values);
+            std::cout << "This is Epoch n°: " << i << " | Current loss at: " << loss << std::endl;
+        }
+    }
+
+    // These are the final results:
+    Eigen::MatrixXd test_final_pred = network.net_forward(test_input);
+    std::cout << "\n" << "After " << epochs << " epochs, the final preficted values are..." << std::endl
+              << "\n" << test_final_pred << std::endl;
 
     return 0;
 }

@@ -26,7 +26,7 @@ class Network {
             weights, beginning from the end and moving backwards.
         */
        void net_backward(const Eigen::MatrixXd & true_values,
-                         const Eigen::MatrixXd & pred_values, double learning_rate);
+                         const Eigen::MatrixXd & predicted_values, double learning_rate);
 
     private:
         /*
