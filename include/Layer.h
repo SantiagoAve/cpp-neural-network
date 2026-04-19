@@ -47,5 +47,4 @@ class Layer {
         Eigen::MatrixXd sigmoid_derivative(const Eigen::MatrixXd & z);
         Eigen::MatrixXd relu(const Eigen::MatrixXd & z);
         Eigen::MatrixXd relu_derivative(const Eigen::MatrixXd & z);
-
 };

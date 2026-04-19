@@ -10,6 +10,9 @@ Layer::Layer(int input_size, int output_size, const std::string & activation) {
     this->biases = Eigen::VectorXd::Zero(output_size);
     this->activation_function = activation;
 }
+/*
+    -----------------------------------------------------------------------------------------------
+*/
 
 /*
     FORWARD & BACKWARD:
@@ -52,6 +55,9 @@ Eigen::MatrixXd Layer::backward(const Eigen::MatrixXd & propag_loss_grad, double
     // therefore, transposition is necessary for 'weights'.
     return this->weights.transpose() * derivative_z;
 }
+/*
+    -----------------------------------------------------------------------------------------------
+*/
 
 /*
     SIGMOID FUNCTION:
@@ -64,6 +70,9 @@ Eigen::MatrixXd Layer::sigmoid_derivative(const Eigen::MatrixXd & z) {
     Eigen::MatrixXd sigmoid_result = this->sigmoid(z);
     return sigmoid_result.array() * (1 - sigmoid_result.array());
 }
+/*
+    -----------------------------------------------------------------------------------------------
+*/
 
 /*
     RELU FUNCTION:
@@ -73,5 +82,7 @@ Eigen::MatrixXd Layer::relu(const Eigen::MatrixXd & z) {
 }
 
 Eigen::MatrixXd Layer::relu_derivative(const Eigen::MatrixXd & z) {
+    // If an element is > 0, then it puts a true, else a false.
+    // Then, casted to a double for better efficiency in Eigen.
     return (z.array() > 0).cast<double>();
 }
