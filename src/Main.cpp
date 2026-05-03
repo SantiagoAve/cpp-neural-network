@@ -2,6 +2,7 @@
 #include <eigen/Dense>
 #include "Layer.hpp"
 #include "Network.hpp"
+#include "ActivationF.hpp"
 // TEST ONLY:
 #include "Loss.hpp"
 
@@ -11,40 +12,58 @@
 */
 int main() {
     // For this, our structure is: { 2 -> 4 -> 1 }
-    Layer layer_1(2, 4, "ReLU");
-    Layer layer_2(4, 1, "Sigmoid");
+    Layer layer_1(2, 4, ActivationFunction::relu, ActivationFunction::relu_derivative);
+    Layer layer_2(4, 1, ActivationFunction::sigmoid, ActivationFunction::sigmoid_derivative);
     Network network({layer_1, layer_2});
 
-    // Let's create four simple examples in a 2*4 matrix:
-    Eigen::MatrixXd test_input(2, 4);
-    test_input << 0, 0, 1, 1,
-                  0, 1, 0, 1;
+    // Let's do one bach:
+    Eigen::MatrixXd test_input_1(2, 4);
+    test_input_1 << 0, 0, 1, 1,
+                    0, 1, 0, 1;
 
-    // Then, our real values are:
-    Eigen::MatrixXd test_true_val(1, 4);
-    test_true_val << 0, 1, 1, 0;
+    Eigen::MatrixXd test_true_val_1(1, 4);
+    test_true_val_1 << 0, 1, 1, 0;
+
+    // Now, another one:
+    Eigen::MatrixXd test_input_2(2, 4);
+    test_input_2 << 1, 1, 0, 0,
+                    0, 1, 1, 0;
+    
+    Eigen::MatrixXd test_true_val_2(1, 4);
+    test_true_val_2 << 1, 0, 1, 0;
+
+    // Finally, an example not seen:
+    Eigen::MatrixXd test_input_3(2, 4);
+    test_input_3 << 1, 1, 0, 0,
+                    1, 0, 1, 0;
 
     // Now we setup out training configuration:
     double test_lear_rate = 0.1;
     short epochs = 10000; // An epoch is a single complete pass through the training dataset.
 
     for (short i = 0; i < epochs; i++) {
-        // First, do forward:
-        Eigen::MatrixXd test_pred_values = network.net_forward(test_input);
+        
+        // First, do one full bach:
+        Eigen::MatrixXd test_pred_values_1 = network.net_forward(test_input_1);
 
-        // Afterwards, proceed with backward:
-        network.net_backward(test_true_val, test_pred_values, test_lear_rate);
+        network.net_backward(test_true_val_1, test_pred_values_1, test_lear_rate);
+
+        // Now, with another bach:
+        Eigen::MatrixXd test_pred_values_2 = network.net_forward(test_input_2);
+
+        network.net_backward(test_true_val_2, test_pred_values_2, test_lear_rate);
 
         // Lastly, we print some info after many epochs:
         if (i % 1000 == 0) {
             // Calculate and print current loss:
-            double loss = Loss::mean_squared(test_true_val, test_pred_values);
+            double loss = Loss::mean_squared((test_true_val_1 + test_true_val_2) / 2,
+                                             (test_pred_values_1 + test_pred_values_2) / 2);
             std::cout << "This is Epoch n°: " << i << " | Current loss at: " << loss << std::endl;
         }
     }
 
     // These are the final results:
-    Eigen::MatrixXd test_final_pred = network.net_forward(test_input);
+    Eigen::MatrixXd test_final_pred = network.net_forward(test_input_3);
     std::cout << "\n" << "After " << epochs << " epochs, the final preficted values are..." << std::endl
               << "\n" << test_final_pred << std::endl;
 

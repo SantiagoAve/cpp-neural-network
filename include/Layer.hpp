@@ -1,16 +1,20 @@
 #pragma once
 #include <Eigen/Dense>
 #include <string>
-#include "ActivationF.hpp"
+#include <functional>
 
 class Layer {
+    // This is a powerful alias, used so the Layer can store it's own activation function.
+    using ActivationFunction = std::function<Eigen::MatrixXd(const Eigen::MatrixXd &)>;
+    
     public:
         /*
             LAYER CONSTRUCTOR:
             Initializes a Layer. Creates a weight matrix of size Output*Input, creates
             a bias matrix of side Output and uses one of two activations.
         */
-        Layer(int input_size, int output_size, const std::string & activation = "Sigmoid");
+        Layer(int input_size, int output_size, ActivationFunction activation_function,
+              ActivationFunction activation_derivative);
 
         /*
             FORWARD ACTION:
@@ -30,12 +34,17 @@ class Layer {
         /*
             INNER VARIABLES:
             These variables are used to store information of the layer. They are mostly
-            used for backward, like my_z and my_a or prev_input.
+            used for the backward function.
         */
         Eigen::MatrixXd weights; // Member' Output*Input in size.
         Eigen::VectorXd biases;
+
+        Eigen::MatrixXd derivative_w;
+        Eigen::MatrixXd derivative_b;
+
+        ActivationFunction activation_function; // Can be Sigmoid, ReLU, TanH.
+        ActivationFunction activation_derivative;
+
         Eigen::MatrixXd layer_z; // Pre-activation matrix value.
-        Eigen::MatrixXd layer_a;
         Eigen::MatrixXd prev_input;
-        std::string activation_function; // Can be Sigmoid, ReLU, TanH.
 };

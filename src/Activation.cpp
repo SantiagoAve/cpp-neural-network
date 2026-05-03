@@ -27,3 +27,22 @@ Eigen::MatrixXd ActivationFunction::relu_derivative(const Eigen::MatrixXd & z) {
     // Then, casted to a double for better efficiency in Eigen.
     return (z.array() > 0).cast<double>();
 }
+/*
+    -----------------------------------------------------------------------------------------------
+*/
+
+/*
+    HYPERBOLIC TANGENT:
+*/
+Eigen::MatrixXd ActivationFunction::tanh(const Eigen::MatrixXd & z) {
+    // Eigen has a built-in function that works better with their types.
+    return z.array().tanh();
+}
+
+Eigen::MatrixXd ActivationFunction::tanh_derivative(const Eigen::MatrixXd & z) {
+    Eigen::MatrixXd tanh_result = tanh(z);
+    return 1 - tanh_result.array().square();
+}
+/*
+    -----------------------------------------------------------------------------------------------
+*/
