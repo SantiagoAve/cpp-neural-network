@@ -1,6 +1,7 @@
 #pragma once
-#include <eigen/Dense>
+#include <Eigen/Dense>
 #include <string>
+#include "ActivationF.hpp"
 
 class Layer {
     public:
@@ -33,18 +34,8 @@ class Layer {
         */
         Eigen::MatrixXd weights; // Member' Output*Input in size.
         Eigen::VectorXd biases;
-        Eigen::MatrixXd my_z; // Pre-activation matrix value.
-        Eigen::MatrixXd my_a;
+        Eigen::MatrixXd layer_z; // Pre-activation matrix value.
+        Eigen::MatrixXd layer_a;
         Eigen::MatrixXd prev_input;
-        std::string activation_function; // Can be Sigmoid or ReLU.
-
-        /*
-            ACTIVATION FUNCTIONS:
-            These are activation functions and their derivatives, meaning they store how
-            each Neuron is activated and what their derivative is like.
-        */
-        Eigen::MatrixXd sigmoid(const Eigen::MatrixXd & z);
-        Eigen::MatrixXd sigmoid_derivative(const Eigen::MatrixXd & z);
-        Eigen::MatrixXd relu(const Eigen::MatrixXd & z);
-        Eigen::MatrixXd relu_derivative(const Eigen::MatrixXd & z);
+        std::string activation_function; // Can be Sigmoid, ReLU, TanH.
 };

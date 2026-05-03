@@ -1,4 +1,4 @@
-#include "Layer.h"
+#include "Layer.hpp"
 #include <random>
 
 /*
@@ -20,15 +20,15 @@ Layer::Layer(int input_size, int output_size, const std::string & activation) {
 Eigen::MatrixXd Layer::forward(const Eigen::MatrixXd & input) {
     // These variables are going to be used for backward later on.
     this->prev_input = input;
-    this->my_z = (this->weights * input).colwise() + this->biases;
+    this->layer_z = (this->weights * input).colwise() + this->biases;
 
-    if (this->activation_function == "Sigmoid") {
-        this->my_a = this->sigmoid(this->my_z);
+    if (this->activation_function == "ReLU") {
+        this->layer_a = ActivationFunction::relu(this->layer_z);
     } else {
-        this->my_a = this->relu(this->my_z);
+        this->layer_a = ActivationFunction::sigmoid(this->layer_z);
     }
 
-    return this->my_a;
+    return this->layer_a;
 }
 
 Eigen::MatrixXd Layer::backward(const Eigen::MatrixXd & propag_loss_grad, double learning_rate) {
@@ -37,10 +37,12 @@ Eigen::MatrixXd Layer::backward(const Eigen::MatrixXd & propag_loss_grad, double
     Eigen::MatrixXd derivative_z;
 
     // This is what chain rule is translated into.
-    if (this->activation_function == "Sigmoid") {
-        derivative_z = propag_loss_grad.array() * sigmoid_derivative(this->my_z).array();
+    if (this->activation_function == "ReLU") {
+        derivative_z = propag_loss_grad.array()
+                     * ActivationFunction::relu_derivative(this->layer_z).array();
     } else {
-        derivative_z = propag_loss_grad.array() * relu_derivative(this->my_z).array();
+        derivative_z = propag_loss_grad.array()
+                     * ActivationFunction::sigmoid_derivative(this->layer_z).array();
     }
 
     // In this case, this is for representing 'dL/dW = [dL/dA * dA/dZ] * dZ/dW' or for biases,
@@ -58,31 +60,3 @@ Eigen::MatrixXd Layer::backward(const Eigen::MatrixXd & propag_loss_grad, double
 /*
     -----------------------------------------------------------------------------------------------
 */
-
-/*
-    SIGMOID FUNCTION:
-*/
-Eigen::MatrixXd Layer::sigmoid(const Eigen::MatrixXd & z) {
-    return 1 / ( 1 + ( -z.array() ).exp() );
-}
-
-Eigen::MatrixXd Layer::sigmoid_derivative(const Eigen::MatrixXd & z) {
-    Eigen::MatrixXd sigmoid_result = this->sigmoid(z);
-    return sigmoid_result.array() * (1 - sigmoid_result.array());
-}
-/*
-    -----------------------------------------------------------------------------------------------
-*/
-
-/*
-    RELU FUNCTION:
-*/
-Eigen::MatrixXd Layer::relu(const Eigen::MatrixXd & z) {
-    return z.array().max(0);
-}
-
-Eigen::MatrixXd Layer::relu_derivative(const Eigen::MatrixXd & z) {
-    // If an element is > 0, then it puts a true, else a false.
-    // Then, casted to a double for better efficiency in Eigen.
-    return (z.array() > 0).cast<double>();
-}

@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
-#include "Layer.h"
-#include "Loss.h"
+#include "Layer.hpp"
+#include "Loss.hpp"
 
 class Network {
     public:
@@ -12,7 +12,6 @@ class Network {
         */
         Network(const std::vector<Layer> & layers);
 
-        // Forward function that executes forward in each layer.
         /*
             FORWARD ACTION:
             Funcion that executes forward on each layer, providing a final output,

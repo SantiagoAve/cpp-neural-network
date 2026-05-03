@@ -1,9 +1,9 @@
 #include <iostream>
 #include <eigen/Dense>
-#include "Layer.h"
-#include "Network.h"
+#include "Layer.hpp"
+#include "Network.hpp"
 // TEST ONLY:
-#include "Loss.h"
+#include "Loss.hpp"
 
 /*
     RIGHT NOW, WE'LL DO A SIMPLE TEST TO CHECK IF THIS NEURAL NETWORK IS WORKING
