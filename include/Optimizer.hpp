@@ -1,5 +1,5 @@
 #pragma once
-#include <eigen/Dense>
+#include <Eigen/Dense>
 #include <vector>
 //#include <unordered_map>
 #include "Layer.hpp"

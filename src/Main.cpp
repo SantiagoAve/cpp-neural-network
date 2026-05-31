@@ -1,5 +1,5 @@
 #include <iostream>
-#include <eigen/Dense>
+#include <Eigen/Dense>
 #include "ActivationF.hpp"
 #include "Optimizer.hpp"
 #include "Layer.hpp"

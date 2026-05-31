@@ -1,29 +1,31 @@
-# Red Neuronal en C++
-Este proyecto personal está diseñado para aprender y poner en práctica conceptos de redes neuronales usando C++. Sirve como una introducción inicial para proyectos futuros mucho más grandes.
+# Neural Network Framework in C++
+This is a personal proyect focused on learning and practicing what I see on class and Internet. My goal is to create a light, highly optimized framework so I don't have to use PyTorch, since I hate python and I like low-level stuff, but still being able to beat my classmates. This little project should be able to add all the neccesary tools for said goal.
 
-# Objetivos
-- Mejorar la programación en C++.
-- Diseñar desde cero operaciones básicas, como capas densas, activaciones (ReLU, Sigmoid), forward y backward propagation.
-- Entrenar un modelo simple, como clasificación de dígitos con MNIST.
-- Igualar, o superar en la medidad de lo posible, el rendiemiento de otras librerías ya existentes.
+# Concrete Goals
+- Improve my C++ programming skills!
+- Design from scratch all basic operations and functions of a library like PyTorch, while also adding unique features.
+- Start to work with CUDA and GPU programming.
+- Train simple models, and compare them using different networks.
+- Benchmarking compared to PyTorch; should be able to beat its counterpart.
 
-# Roadmap
-1. Preparar entorno y herramientas.
-2. Crear los fundamentos matemáticos de la red neuronal.
-3. Trabajar con la arquitectura de la red.
-4. Entrenarla.
-5. Trabajar con MNIST y hacer pruebas.
-6. Comparación de rendimiento.
+# Current Roadmap
+1. ~~Prepare working environment, tools and knowledge.~~
+2. ~~Create the basics; activation, loss, forward.~~
+3. ~~Work on the network; layer, network, optimizer, backpropagation.~~
+4. Training examples and tests.
+5. Expanding the framework; cross-entrophy, more optimizers, convolution, CUDA.
+6. Benchamark with PyTorch.
 
-# Requisitos de Compilación
-- G++ o Clang, para C++ 26 o superior.
-- CMake versión 3.10 o superior.
-- Eigen (librería de Álgebra Lineal)
+# Compiler Requirements
+- Any compiler like GCC or CLang, as long as it supports C++26.
+- CMake 3.25 or higher.
+- Eigen, for Lineal Algebra operations. "I aint coding allat ;)"
 
-# Instrucciones de uso
-- Luego de clonar el repo, ejecutar: *git submodule init* y *git submodule update*.
-- Una vez realizado, crear la carpeta *build*.
-- Dentro de build ejecutar los comandos *cmake ..* o *cmake -G "MinGW Makefiles" ..* luego *make* o *cmake --build .* y finalmente *./main*.
+# How to compile
+1. Once cloned, you should first write: *git submodule init* and then *git submodule update*. This ensures Eigen will be used.
+2. Once done, make a folder for the build, something like: *mkdir build*
+3. Then, go inside said folder, you can try: *cd build/*
+4. Last but not least, run these commands *in order*, first: *cmake ..*, then *make*, and finally *./main*.
 
-# Ejemplo de uso
-*Work in progress!*
+# Anything else?
+*Work in progress! Stay tuned :)*
