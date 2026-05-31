@@ -1,5 +1,6 @@
 # Para ignorar la carpeta de compilación.
 /build/
+/.vscode/
 
 # Y para ignorar ejecutables.
 *.exe

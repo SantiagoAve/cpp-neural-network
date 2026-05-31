@@ -24,10 +24,10 @@ Eigen::MatrixXd Layer::forward(const Eigen::MatrixXd & input) {
     this->prev_input = input;
     this->layer_z = (this->weights * input).colwise() + this->biases;
 
-    return this->activation_function(this->layer_z);;
+    return this->activation_function(this->layer_z);
 }
 
-Eigen::MatrixXd Layer::backward(const Eigen::MatrixXd & propag_loss_grad, double learning_rate) {
+Eigen::MatrixXd Layer::backward(const Eigen::MatrixXd & propag_loss_grad) {
     // I know it's not the best name, but this is supposed to represent what in calculus you
     // found as 'dL/dZ = [dL/dA * dA/dZ]'.
     Eigen::MatrixXd derivative_z;
@@ -39,9 +39,6 @@ Eigen::MatrixXd Layer::backward(const Eigen::MatrixXd & propag_loss_grad, double
     // 'dL/dB = [dL/dA * dA/dZ] * dZ/dB'. Notice how '[dL/dA * dA/dZ]' is 'derivative_z'.
     this->derivative_w = derivative_z * this->prev_input.transpose();
     this->derivative_b = derivative_z.rowwise().sum();
-
-    this->weights -= learning_rate * derivative_w;
-    this->biases -= learning_rate * derivative_b;
 
     // Keep in mind 'derivative_z' size is Output*Bach, and 'weights' size is Output*Input,
     // therefore, transposition is necessary for 'weights'.

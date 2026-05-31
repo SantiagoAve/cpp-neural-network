@@ -2,6 +2,7 @@
 #include <vector>
 #include "Layer.hpp"
 #include "Loss.hpp"
+#include "Optimizer.hpp"
 
 class Network {
     public:
@@ -10,7 +11,8 @@ class Network {
             Initializes a Network. Currently, Layer creation is tied to user,
             future updates will allow Layer creation to be done here.
         */
-        Network(const std::vector<Layer> & layers);
+        Network(const std::vector<Layer> & layers, std::unique_ptr<Optimizer> ptr_to_optimizer)
+                : layers(layers), num_layers(layers.size()), optimizer(std::move(ptr_to_optimizer)) {};
 
         /*
             FORWARD ACTION:
@@ -24,8 +26,7 @@ class Network {
             Function that executes backward on each layer, correcting biases and
             weights, beginning from the end and moving backwards.
         */
-       void net_backward(const Eigen::MatrixXd & true_values,
-                         const Eigen::MatrixXd & predicted_values, double learning_rate);
+       void net_backward(const Eigen::MatrixXd & true_values, const Eigen::MatrixXd & predicted_values);
 
     private:
         /*
@@ -34,4 +35,5 @@ class Network {
         */
         std::vector<Layer> layers;
         size_t num_layers;
+        std::unique_ptr<Optimizer> optimizer;
 };

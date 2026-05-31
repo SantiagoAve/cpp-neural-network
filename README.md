@@ -16,14 +16,14 @@ Este proyecto personal está diseñado para aprender y poner en práctica concep
 6. Comparación de rendimiento.
 
 # Requisitos de Compilación
-- G++ o Clang, para C++ 17 o superior.
+- G++ o Clang, para C++ 26 o superior.
 - CMake versión 3.10 o superior.
 - Eigen (librería de Álgebra Lineal)
 
 # Instrucciones de uso
 - Luego de clonar el repo, ejecutar: *git submodule init* y *git submodule update*.
 - Una vez realizado, crear la carpeta *build*.
-- Dentro de build ejecutar los comandos *cmake ..* luego *make* y finalmente *./main*.
+- Dentro de build ejecutar los comandos *cmake ..* o *cmake -G "MinGW Makefiles" ..* luego *make* o *cmake --build .* y finalmente *./main*.
 
 # Ejemplo de uso
 *Work in progress!*
