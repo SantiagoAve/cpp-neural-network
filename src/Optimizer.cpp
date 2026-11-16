@@ -17,7 +17,7 @@ namespace nn {
         }
     }
     /*
-        ---------------------------------------------------------------------------
+        -----------------------------------------------------------------------------------------------
     */
 
     // The SGD constructor is a call to the base one.
@@ -39,10 +39,13 @@ namespace nn {
         *p.biases -= learning_rate_ * *p.grad_biases;
     }
     /*
-        ---------------------------------------------------------------------------
+        -----------------------------------------------------------------------------------------------
     */
 
-    // The ADAM constructor. It needs some extra checking on its variables.
+    /*
+        ADAM CONSTRUCTOR:
+        It just needs some extra checking on its variables.
+    */
     Adam::Adam(double learning_rate, double beta1, double beta2, double epsilon)
         : Optimizer(learning_rate), beta1_(beta1), beta2_(beta2), epsilon_(epsilon) {
         if (beta1_ <= 0.0 || beta1_ >= 1.0 || beta2_ <= 0.0 || beta2_ >= 1.0) {
@@ -55,6 +58,9 @@ namespace nn {
                 std::format("Adam: epsilon must be positive (got {})", epsilon_));
         }
     }
+    /*
+        -----------------------------------------------------------------------------------------------
+    */
 
     /*
         ADAM UPDATE:
@@ -99,4 +105,7 @@ namespace nn {
         *p.biases -= learning_rate_ *
                     (m_hat_b.array() / (v_hat_b.array().sqrt() + epsilon_)).matrix();
     }
+    /*
+        -----------------------------------------------------------------------------------------------
+    */
 } // namespace nn
