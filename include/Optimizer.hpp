@@ -49,11 +49,11 @@ namespace nn {
         gradient (m, the first moment, "momentum") and of its square (v, the second moment, or
         "variance"), then corrects both for their zero-initialization bias before stepping:
     
-        m_t = beta1 * m_(t-1) + (1 - beta1) * g_t
-        v_t = beta2 * v_(t-1) + (1 - beta2) * g_t ^ 2
-        m'_t = m_t / (1 - beta1 ^ t) -> bias correction
-        v'_t = v_t / (1 - beta2 ^ t)
-        w = w - lr * m'_t / (sqrt(v'_t) + epsilon)
+            m_t = beta1 * m_(t-1) + (1 - beta1) * g_t
+            v_t = beta2 * v_(t-1) + (1 - beta2) * g_t ^ 2
+            m'_t = m_t / (1 - beta1 ^ t) -> bias correction
+            v'_t = v_t / (1 - beta2 ^ t)
+            w = w - lr * m'_t / (sqrt(v'_t) + epsilon)
     
         States are kept per layer (lazy-initialized on first update). Keys are stable because
         Network stores layers as unique_ptr, so the pointed-to objects never move.
