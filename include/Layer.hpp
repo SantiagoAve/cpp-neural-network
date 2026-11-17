@@ -1,6 +1,8 @@
 #pragma once
+
 #include <Eigen/Dense>
 #include <string>
+#include <iosfwd>
 
 namespace nn {
     /*
@@ -16,7 +18,7 @@ namespace nn {
         Eigen::VectorXd * grad_biases = nullptr;
 
         [[nodiscard]] bool empty() const { return weights == nullptr; }
-    };
+    }; // struct Parameters
 
     /*
         LAYER (ABSTRACT BASE):
@@ -25,7 +27,7 @@ namespace nn {
 
         This interface is left deliberately general on purpose, DenseLayer, Conv2D, and other
         layers can be added later without touching anything else. This is basic polymorphism
-        and herency.
+        and inheritance.
 
         Note that both passes are non-const, this is because they cache internal state; that
         also means that forward passes must always come before backward ones, since they use
@@ -58,7 +60,17 @@ namespace nn {
             */
             virtual Parameters parameters() { return {}; }
 
+            /*
+                SERIALIZATION:
+                Writes this layer's architecture and current parameter values to a stream, in the
+                format Network::save uses. The first token must be a type tag ("dense", "softmax",
+                ...) that tells the loader which concrete class to rebuild; the rest is whatever
+                the layer itself needs to come back identical. Every layer must be serializable,
+                because a layer that cannot be saved cannot be part of a model that loads back.
+            */
+            virtual void save(std::ostream & out) const = 0;
+
             // This is a readable description, used for logging and debugging purposes.
             [[nodiscard]] virtual std::string name() const = 0;
-    };
+    }; // class Layer
 } // namespace nn

@@ -1,8 +1,12 @@
 #pragma once
+
 #include "Layer.hpp"
 #include "Activation.hpp"
+
 #include <cstdint>
 #include <optional>
+#include <iosfwd>
+#include <memory>
 
 namespace nn {
     /*
@@ -12,9 +16,9 @@ namespace nn {
         batches stored column-wise; which is features x batch_size.
 
         Note that weight initialization is matched to the activation type; He for ReLU family
-        and Xavier for Tanh or Sigmoid. This keeps activation and gradient variance stable
-        across all layers. And a fixed seed makes construction deterministic, granting the same
-        results no matter when it's run.
+        and Xavier for Tanh or Sigmoid. This keeps activation and gradient variance stable across
+        all layers. And a fixed seed makes construction deterministic, granting the same results
+        no matter when it's run.
     */
     class DenseLayer final : public Layer {
         public:
@@ -33,6 +37,22 @@ namespace nn {
             [[nodiscard]] std::string name() const override;
             Parameters parameters() override;
 
+            /*
+                SERIALIZATION:
+                Writes "dense <in> <out> <activation>" followed by the weight matrix and the
+                bias vector, all with full double precision. Whatever this writes, load() reads
+                back exactly.
+            */
+            void save(std::ostream & out) const override;
+
+            /*
+                DESERIALIZATION:
+                Reads back what save() wrote (Without the leading type tag, which the
+                Network-level loader consumes first). Malformed files throw
+                std::runtime_error; unknown activations throw std::invalid_argument.
+            */
+            [[nodiscard]] static std::unique_ptr<DenseLayer> load(std::istream & in);
+
         private:
             /*
                 INNER VARIABLES:
@@ -50,5 +70,5 @@ namespace nn {
 
             Eigen::MatrixXd pre_activation_; // This is z = W * input + b, cached for backward pass.
             Eigen::MatrixXd last_input_; // Also cached for backward pass.
-    };
+    }; // class DenseLayer
 } // namespace nn
