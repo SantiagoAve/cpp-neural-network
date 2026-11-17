@@ -1,7 +1,14 @@
-# Para ignorar la carpeta de compilación.
-/build/
+# Build directories (Also matches build/release and build/debug from presets)
+build*/
 
-# Y para ignorar ejecutables.
+# IDE / tooling
+.vscode/
+.idea/
+.cache/
+compile_commands.json
+
+# Compiled artifacts
 *.exe
 *.out
 *.o
+*.a
